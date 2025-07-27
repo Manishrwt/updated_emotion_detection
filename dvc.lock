@@ -7,6 +7,9 @@ stages:
       hash: md5
       md5: 0a4e1b89f6c752c215b7b32cafb31662
       size: 4301
+    params:
+      params.yaml:
+        data_ingestion.test_size: 0.3
     outs:
     - path: data/raw/test.csv
       hash: md5
@@ -55,42 +58,49 @@ stages:
       hash: md5
       md5: 54af6658650ce73b89339cea29985dd6
       size: 4259
+    params:
+      params.yaml:
+        feature_engineering.max_features: 1500
     outs:
     - path: data/interim/test_bow.csv
       hash: md5
-      md5: 8f9b54934ceeb6b5182620c1949098d1
-      size: 940622
+      md5: 14c96938f9c8b06b28f27627ddd4a911
+      size: 9351622
     - path: data/interim/train_bow.csv
       hash: md5
-      md5: 693d5e7baf76687bd40f78a72e607e34
-      size: 2193318
+      md5: dd26f8f0624a9b747efc9b1bc2dc888f
+      size: 21803918
   model_training:
     cmd: python src/models/model_training.py
     deps:
     - path: data/interim/train_bow.csv
       hash: md5
-      md5: 693d5e7baf76687bd40f78a72e607e34
-      size: 2193318
+      md5: dd26f8f0624a9b747efc9b1bc2dc888f
+      size: 21803918
     - path: src/models/model_training.py
       hash: md5
       md5: b6eb5a15f45796e9ffd83ebf409f242d
       size: 3268
+    params:
+      params.yaml:
+        model_training.max_depth: 10
+        model_training.n_estimators: 80
     outs:
     - path: models/random_forest_model.pkl
       hash: md5
-      md5: cd1a38f8fd6faca6ef1e06950b7c27e7
-      size: 1002993
+      md5: c6c3d586c06b62e275d8f98745a7ed6a
+      size: 753207
   model_evaluation:
     cmd: python src/models/model_evaluation.py
     deps:
     - path: data/interim/test_bow.csv
       hash: md5
-      md5: 8f9b54934ceeb6b5182620c1949098d1
-      size: 940622
+      md5: 14c96938f9c8b06b28f27627ddd4a911
+      size: 9351622
     - path: models/random_forest_model.pkl
       hash: md5
-      md5: cd1a38f8fd6faca6ef1e06950b7c27e7
-      size: 1002993
+      md5: c6c3d586c06b62e275d8f98745a7ed6a
+      size: 753207
     - path: src/models/model_evaluation.py
       hash: md5
       md5: f252fa449357ee2a8d8f926304932fab
@@ -98,5 +108,5 @@ stages:
     outs:
     - path: reports/metrics.json
       hash: md5
-      md5: cdd4de081a67411458df643b4a630c3d
+      md5: 06288e41a2ff6ebc8766fa0bb98a52f6
       size: 144

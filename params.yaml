@@ -1,9 +1,9 @@
 data_ingestion:
-  test_size: 0.3
+  test_size: 0.3  # Proportion of the dataset to include in the test split
 
-feature_engineering:  # Updated key
-  max_features: 150
+feature_engineering:
+  max_features: 1500  # Maximum number of features for CountVectorizer
 
 model_training:
-  n_estimators: 80
-  max_depth: 10
+  n_estimators: 80  # Number of trees in the Random Forest
+  max_depth: 10  # Maximum depth of the trees
